@@ -1,31 +1,41 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { verifyAdminCredentials } from './adminAuth';
+import {
+  sha256Hex,
+  verifyAdminCredentials,
+  verifyAdminCredentialsWithHash,
+} from './adminAuth';
 
-test('verifyAdminCredentials accepts valid admin email and password', async () => {
-  const ok = await verifyAdminCredentials(
-    'bernardogloogle79@gmail.com',
-    '7c]%T9})fgT=:wH+_M:g'
+test('verifyAdminCredentialsWithHash accepts matching email and password', async () => {
+  const expectedHash = await sha256Hex('admin.teste@exemplo.com:SenhaTeste#2026');
+  const ok = await verifyAdminCredentialsWithHash(
+    'admin.teste@exemplo.com',
+    'SenhaTeste#2026',
+    expectedHash
   );
   assert.equal(ok, true);
 });
 
-test('verifyAdminCredentials normalizes email casing and whitespace', async () => {
-  const ok = await verifyAdminCredentials(
-    '  BernardoGloogle79@GMAIL.com ',
-    '7c]%T9})fgT=:wH+_M:g'
+test('verifyAdminCredentialsWithHash normalizes email casing and whitespace', async () => {
+  const expectedHash = await sha256Hex('admin.teste@exemplo.com:SenhaTeste#2026');
+  const ok = await verifyAdminCredentialsWithHash(
+    '  Admin.Teste@EXEMPLO.com ',
+    'SenhaTeste#2026',
+    expectedHash
   );
   assert.equal(ok, true);
 });
 
-test('verifyAdminCredentials rejects invalid credentials', async () => {
+test('verifyAdminCredentialsWithHash and verifyAdminCredentials reject invalid credentials', async () => {
+  const expectedHash = await sha256Hex('admin.teste@exemplo.com:SenhaTeste#2026');
   assert.equal(
-    await verifyAdminCredentials('bernardogloogle79@gmail.com', 'wrong-pass'),
+    await verifyAdminCredentialsWithHash('admin.teste@exemplo.com', 'wrong-pass', expectedHash),
     false
   );
   assert.equal(
-    await verifyAdminCredentials('other@gmail.com', '7c]%T9})fgT=:wH+_M:g'),
+    await verifyAdminCredentialsWithHash('other@exemplo.com', 'SenhaTeste#2026', expectedHash),
     false
   );
   assert.equal(await verifyAdminCredentials('', ''), false);
+  assert.equal(await verifyAdminCredentials('invalid@exemplo.com', 'wrong'), false);
 });
