@@ -1,9 +1,64 @@
+# Dependencies & build outputs
 node_modules/
 build/
 dist/
 coverage/
+
+# OS & logs
 .DS_Store
 *.log
-.env*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables & local overrides
+.env
+.env.*
+.env*.local
 !.env.example
-src/utils/adminAuth.test.ts/
+
+# Sensitive folders & private credentials
+secrets/
+private/
+credentials/
+certs/
+.secrets/
+.ssh/
+.aws/
+
+# Keys, certificates & service account files
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+*.secret
+*serviceAccount*.json
+*service-account*.json
+*credentials*.json
+*client_secret*.json
+
+# Firebase local state & debug logs
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+firebase-export-*
+
+# Local databases, exported financial backups & reports
+*.db
+*.sqlite
+*.sqlite3
+*backup*.json
+finance-os-backup-*.json
+finance-os-relatorio-*.csv
+finance-os-relatorio-*.pdf
+*.ofx
+
+# Automation captures, logs & workspace metadata
+.playwright-cli/
+.aistudio/
