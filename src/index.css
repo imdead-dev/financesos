@@ -1,0 +1,134 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --fos-bg: #050507;
+  --fos-surface: #0e0f12;
+  --fos-surface-muted: #16181d;
+  --fos-border: #262932;
+  --fos-text: #f4f4f5;
+  --fos-text-muted: #9ca3af;
+  --fos-accent: #ff9900;
+  --fos-accent-fg: #09090b;
+  --fos-positive: #10b981;
+  --fos-negative: #ef4444;
+  --fos-warning: #f59e0b;
+  --fos-radius: 2px;
+  --fos-radius-sm: 2px;
+  --fos-gap: 12px;
+  --fos-pad: 14px;
+  --fos-row-h: 36px;
+  --fos-font-display: "JetBrains Mono", monospace;
+  --fos-font-body: "JetBrains Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--fos-bg);
+  color: var(--fos-text);
+  font-family: var(--fos-font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Theme-level subtle ambient surface for Glassmorphism & Cyberpunk without noisy bloat */
+html[data-theme="glassmorphism"] body {
+  background-image: radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.14), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(129, 140, 248, 0.14), transparent 45%);
+  background-attachment: fixed;
+}
+
+html[data-theme="cyberpunk"] body {
+  background-image: linear-gradient(to right, rgba(168, 85, 247, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.font-display {
+  font-family: var(--fos-font-display);
+}
+
+.font-num {
+  font-family: "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.fos-surface {
+  background-color: var(--fos-surface);
+  border-color: var(--fos-border);
+  border-radius: var(--fos-radius);
+}
+
+.fos-surface-muted {
+  background-color: var(--fos-surface-muted);
+  border-color: var(--fos-border);
+  border-radius: var(--fos-radius-sm);
+}
+
+.fos-input {
+  background-color: var(--fos-surface-muted);
+  border: 1px solid var(--fos-border);
+  color: var(--fos-text);
+  border-radius: var(--fos-radius-sm);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.fos-input:focus {
+  outline: none;
+  border-color: var(--fos-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--fos-accent) 24%, transparent);
+}
+
+.fos-btn-primary {
+  background-color: var(--fos-accent);
+  color: var(--fos-accent-fg);
+  border-radius: var(--fos-radius-sm);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.fos-btn-primary:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.fos-btn-primary:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+.fos-btn-secondary {
+  background-color: var(--fos-surface-muted);
+  color: var(--fos-text);
+  border: 1px solid var(--fos-border);
+  border-radius: var(--fos-radius-sm);
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.fos-btn-secondary:hover:not(:disabled) {
+  border-color: var(--fos-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

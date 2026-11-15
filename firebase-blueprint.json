@@ -1,0 +1,206 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private user account metadata isolated per authenticated user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "format": "email", "maxLength": 254 },
+        "displayName": { "type": "string", "maxLength": 120 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "email", "displayName", "createdAt", "updatedAt"]
+    },
+    "UserPreferences": {
+      "title": "UserPreferences",
+      "description": "Visual theme customization, currency, and interface preferences.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "themeId": {
+          "type": "string",
+          "enum": [
+            "bloomberg",
+            "tradingview",
+            "apple_finance",
+            "cyberpunk",
+            "monochrome",
+            "emerald",
+            "midnight_blue",
+            "light_professional",
+            "glassmorphism",
+            "amoled"
+          ]
+        },
+        "mode": { "type": "string", "enum": ["dark", "light"] },
+        "accentColor": { "type": "string", "maxLength": 32 },
+        "backgroundColor": { "type": "string", "maxLength": 32 },
+        "chartColors": { "type": "array" },
+        "density": { "type": "string", "enum": ["compact", "comfortable", "spacious"] },
+        "cardStyle": { "type": "string", "enum": ["flat", "bordered", "elevated", "glass"] },
+        "borderRadius": { "type": "string", "enum": ["sharp", "subtle", "rounded", "pill"] },
+        "navStyle": { "type": "string", "enum": ["sidebar", "compact_rail", "topbar"] },
+        "currency": { "type": "string", "enum": ["BRL", "USD", "EUR"] },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "themeId", "mode", "accentColor", "backgroundColor", "chartColors", "density", "cardStyle", "borderRadius", "navStyle", "currency", "updatedAt"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Custom or standard income/expense category.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "type": { "type": "string", "enum": ["income", "expense"] },
+        "color": { "type": "string", "maxLength": 32 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "type", "color", "createdAt", "updatedAt"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Income or expense cash-flow entry.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "type": { "type": "string", "enum": ["income", "expense"] },
+        "amount": { "type": "number" },
+        "description": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "maxLength": 10 },
+        "categoryId": { "type": "string", "maxLength": 128 },
+        "categoryName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "isRecurring": { "type": "boolean" },
+        "recurrenceFrequency": { "type": "string", "enum": ["none", "weekly", "monthly", "yearly"] },
+        "notes": { "type": "string", "maxLength": 400 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "type", "amount", "description", "date", "categoryId", "categoryName", "isRecurring", "recurrenceFrequency", "notes", "createdAt", "updatedAt"]
+    },
+    "SavingsGoal": {
+      "title": "SavingsGoal",
+      "description": "Savings target with accumulated deposits.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "targetAmount": { "type": "number" },
+        "currentAmount": { "type": "number" },
+        "targetDate": { "type": "string", "maxLength": 10 },
+        "notes": { "type": "string", "maxLength": 400 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "targetAmount", "currentAmount", "targetDate", "notes", "createdAt", "updatedAt"]
+    },
+    "SavingsDeposit": {
+      "title": "SavingsDeposit",
+      "description": "Deposit or withdrawal entry linked to a savings goal.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "goalId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "amount": { "type": "number" },
+        "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "maxLength": 10 },
+        "note": { "type": "string", "maxLength": 200 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "goalId", "amount", "date", "note", "createdAt"]
+    },
+    "InvestmentAsset": {
+      "title": "InvestmentAsset",
+      "description": "Manually tracked investment holding across crypto, fixed income, FIIs, stocks, or other.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "ticker": { "type": "string", "maxLength": 24 },
+        "assetClass": { "type": "string", "enum": ["crypto", "fixed_income", "fii", "stocks", "other"] },
+        "quantity": { "type": "number" },
+        "investedAmount": { "type": "number" },
+        "currentAmount": { "type": "number" },
+        "notes": { "type": "string", "maxLength": 400 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "ticker", "assetClass", "quantity", "investedAmount", "currentAmount", "notes", "createdAt", "updatedAt"]
+    },
+    "InvestmentContribution": {
+      "title": "InvestmentContribution",
+      "description": "Historical contribution or valuation log for a tracked investment asset.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "investmentId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "entryType": { "type": "string", "enum": ["contribution", "withdrawal", "valuation"] },
+        "amount": { "type": "number" },
+        "quantityDelta": { "type": "number" },
+        "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "maxLength": 10 },
+        "note": { "type": "string", "maxLength": 200 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "investmentId", "entryType", "amount", "quantityDelta", "date", "note", "createdAt"]
+    },
+    "BankConnection": {
+      "title": "BankConnection",
+      "description": "Configured Open Finance or bank statement sync connection for importing balances, transactions, and assets.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "institutionName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "accountLabel": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "syncMethod": { "type": "string", "enum": ["statement", "open_finance_api"] },
+        "endpointUrl": { "type": "string", "maxLength": 300 },
+        "syncedBalance": { "type": "number" },
+        "autoSync": { "type": "boolean" },
+        "lastSyncedAt": { "type": "string", "maxLength": 40 },
+        "status": { "type": "string", "enum": ["connected", "pending", "error"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "institutionName", "accountLabel", "syncMethod", "endpointUrl", "syncedBalance", "autoSync", "lastSyncedAt", "status", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/private/{docId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user profile info including email and displayName."
+    },
+    "/users/{userId}/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/UserPreferences" },
+      "description": "Persisted theme customization and currency preferences."
+    },
+    "/users/{userId}/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/Category" },
+      "description": "User-managed income and expense categories."
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "User income and expense transactions."
+    },
+    "/users/{userId}/savingsGoals/{goalId}": {
+      "schema": { "$ref": "#/entities/SavingsGoal" },
+      "description": "User savings goals."
+    },
+    "/users/{userId}/savingsDeposits/{depositId}": {
+      "schema": { "$ref": "#/entities/SavingsDeposit" },
+      "description": "Deposits logged against savings goals."
+    },
+    "/users/{userId}/investments/{investmentId}": {
+      "schema": { "$ref": "#/entities/InvestmentAsset" },
+      "description": "Manually tracked investment assets."
+    },
+    "/users/{userId}/investmentContributions/{contributionId}": {
+      "schema": { "$ref": "#/entities/InvestmentContribution" },
+      "description": "Contribution and valuation history for tracked assets."
+    },
+    "/users/{userId}/bankConnections/{connectionId}": {
+      "schema": { "$ref": "#/entities/BankConnection" },
+      "description": "User bank synchronization connections."
+    }
+  }
+}

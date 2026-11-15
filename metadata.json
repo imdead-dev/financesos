@@ -1,0 +1,6 @@
+{
+  "name": "FINANCE OS",
+  "description": "Terminal profissional de gerenciamento financeiro pessoal para controle de fluxo de caixa, reservas, patrimônio, investimentos e análise financeira.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
